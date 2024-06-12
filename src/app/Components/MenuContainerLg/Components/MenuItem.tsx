@@ -3,11 +3,12 @@ import { MenuItemType } from "../../MenuContainerSm/Components/MenuItem";
 
 function MenuItem({ menuItem }: { menuItem: MenuItemType }) {
     return (
-        <li>
-            <Link href={menuItem.to} className="btn btn-sm btn-secondary">
-                {menuItem.label}
-            </Link>
-        </li>
+        <Link
+            href={menuItem.to}
+            className="btn btn-sm btn-secondary capitalize"
+        >
+            {menuItem.label}
+        </Link>
     );
 }
 

@@ -19,17 +19,15 @@ function MenuItem({
     };
 
     return (
-        <li>
-            <button onClick={handleMenuItemClick}>
-                <Link
-                    href={menuItem.to}
-                    className=" capitalize font-semibold text-lg"
-                    style={{ fontVariant: "small-caps" }}
-                >
-                    {menuItem.label}
-                </Link>
-            </button>
-        </li>
+        <button onClick={handleMenuItemClick}>
+            <Link
+                href={menuItem.to}
+                className=" capitalize font-semibold text-lg"
+                style={{ fontVariant: "small-caps" }}
+            >
+                {menuItem.label}
+            </Link>
+        </button>
     );
 }
 

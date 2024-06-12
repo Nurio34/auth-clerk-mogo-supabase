@@ -1,28 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Menu from "./Components/Menu";
 import MenuOpenBtn from "./Components/MenuOpenBtn";
-import MenuContainerLg from "../MenuContainerLg";
 
-function MenuContainerSm() {
+function MenuContainerSm({ menuItems }: any) {
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+        const handleMenu = () => {
+            const screenWith = window.innerWidth;
+            if (screenWith >= 1024) {
+                setIsMenuOpen(false);
+            }
+        };
+
+        window.addEventListener("resize", handleMenu);
+
+        return () => window.removeEventListener("resize", handleMenu);
+    });
 
     return (
         <>
-            <div className="lg:hidden">
-                <MenuOpenBtn setIsMenuOpen={setIsMenuOpen} />
-                <Menu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-            </div>
-            <div className="hidden lg:flex justify-between items-center">
-                <div
-                    className=" font-bold text-2xl"
-                    style={{ fontVariant: "small-caps" }}
-                >
-                    job portal
-                </div>
-                <MenuContainerLg />
-            </div>
+            <MenuOpenBtn setIsMenuOpen={setIsMenuOpen} />
+            <Menu
+                isMenuOpen={isMenuOpen}
+                setIsMenuOpen={setIsMenuOpen}
+                menuItems={menuItems}
+            />
         </>
     );
 }

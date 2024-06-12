@@ -1,20 +1,13 @@
-import { menuItems } from "@/utils/menuItems";
-import React from "react";
 import MenuItem from "./Components/MenuItem";
 
-function MenuContainerLg() {
+function MenuContainerLg({ menuItems }: any) {
     return (
         <ul className="flex gap-[1vw]">
-            {menuItems.map((menuItem) => {
+            {menuItems.map((menuItem: any) => {
                 return (
-                    <>
-                        {menuItem.show && (
-                            <MenuItem
-                                key={menuItem.label}
-                                menuItem={menuItem}
-                            />
-                        )}
-                    </>
+                    <li key={menuItem.label}>
+                        {menuItem.show && <MenuItem menuItem={menuItem} />}
+                    </li>
                 );
             })}
         </ul>
