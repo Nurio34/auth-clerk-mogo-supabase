@@ -11,34 +11,34 @@ function Header({ user }: { user: User | null }) {
             show: true,
         },
         {
-            to: "/login",
+            to: "/sign-in",
             label: "login",
-            show: !user,
+            show: !user && true,
         },
         {
-            to: "/register",
+            to: "/sign-up",
             label: "register",
-            show: !user,
+            show: !user && true,
         },
         {
             to: "/jobs",
             label: "jobs",
-            show: user,
+            show: user && true,
         },
         {
             to: "/activity",
             label: "activity",
-            show: user,
+            show: user && true,
         },
         {
             to: "/membership",
             label: "membership",
-            show: user,
+            show: user && true,
         },
         {
             to: "/account",
             label: "account",
-            show: user,
+            show: user && true,
         },
     ];
 
@@ -56,7 +56,7 @@ function Header({ user }: { user: User | null }) {
                 </div>
                 <MenuContainerLg menuItems={menuItems} />
             </div>
-            <UserButton afterSignOutUrl="/" />
+            {user && <UserButton afterSignOutUrl="/" />}
         </header>
     );
 }

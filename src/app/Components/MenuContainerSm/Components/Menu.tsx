@@ -12,6 +12,10 @@ function Menu({
     setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
     menuItems: any;
 }) {
+    const validMenuItems = menuItems.filter(
+        (menuItem: any) => menuItem.show === true,
+    );
+
     return (
         <AnimatePresence>
             {isMenuOpen && (
@@ -20,6 +24,7 @@ function Menu({
                     initial={{ x: "-100%" }}
                     animate={{ x: 0, zIndex: 1000 }}
                     exit={{ x: "-100%" }}
+                    onClick={() => setIsMenuOpen(false)}
                     // transition={{
                     //     duration: "1s",
                     // }}
@@ -28,6 +33,7 @@ function Menu({
                         className=" w-96 min-h-screen shadow-sm shadow-primary bg-white py-[2vh] px-[4vw]
                         flex flex-col gap-[1vh]
                     "
+                        onClick={(e) => e.stopPropagation()}
                     >
                         <MenuCloseBtn setIsMenuOpen={setIsMenuOpen} />
                         <div
@@ -36,8 +42,8 @@ function Menu({
                         >
                             job portal
                         </div>
-                        <ul className=" grid gap-[1vh]">
-                            {menuItems.map((menuItem: any) => {
+                        <ul className="flex flex-col gap-[1vh] ">
+                            {validMenuItems.map((menuItem: any) => {
                                 return (
                                     <li key={menuItem.label}>
                                         {menuItem.show && (

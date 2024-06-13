@@ -1,28 +1,49 @@
 import { useState } from "react";
 import SubmitBtn from "./SubmitBtn";
+import { useUser } from "@clerk/nextjs";
+import { ProfileType } from "../Onboard";
+import { createProfile } from "@/actions/onboard";
 
 export type RecruiterFormType = {
     name: string;
     currentCompany: string;
     position: string;
-    isPremiumUser: boolean;
 };
 
 export const initialRecruiterFormState = {
     name: "",
     currentCompany: "",
     position: "",
-    isPremiumUser: false,
 };
 
-function RecruiterForm() {
+function RecruiterForm({ profileType }: { profileType: ProfileType }) {
     const [recruiterFormData, setRecruiterFormData] =
         useState<RecruiterFormType>(initialRecruiterFormState);
-    console.log(recruiterFormData);
+
+    const isFormValid = Object.values(recruiterFormData).every(
+        (input) => input !== "",
+    );
+
+    //** --- FORM ACTION --- */
+    const authedUser = useUser();
+    const { user } = authedUser;
+
+    async function createProfileAction() {
+        const data = {
+            recruiterInfo: recruiterFormData,
+            role: profileType,
+            isPremiumUser: false,
+            userId: user?.id,
+            email: user?.emailAddresses[0].emailAddress,
+        };
+
+        await createProfile(data);
+    }
+    //** -------------- */
 
     return (
         <form
-            action=""
+            action={createProfileAction}
             className=" shadow-md shadow-primary rounded-md w-full max-w-md py-[2vh] px-[4vw] mx-auto
         grid gap-[1vh]
     "
@@ -97,7 +118,7 @@ function RecruiterForm() {
                     }
                 />
             </label>
-            <SubmitBtn />
+            <SubmitBtn isFormValid={isFormValid} />
         </form>
     );
 }

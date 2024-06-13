@@ -22,7 +22,7 @@ const ProfileSchema = new mongoose.Schema({
         noticePeriod: Number,
         skils: String,
         previousCompanies: String,
-        totalExperience: String,
+        totalExperience: Number,
         collage: String,
         collageLocation: String,
         graduatedYear: Number,
@@ -34,3 +34,5 @@ const ProfileSchema = new mongoose.Schema({
 
 const Profile =
     mongoose.models.Profile || mongoose.model("Profile", ProfileSchema);
+
+export default Profile;

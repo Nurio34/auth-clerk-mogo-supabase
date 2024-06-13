@@ -5,10 +5,17 @@ import TabBtns from "./TabBtns";
 import CanditateForm from "./Forms/CanditateForm";
 import RecruiterForm from "./Forms/RecruiterForm";
 
-export type ProfileType = "canditate" | "recruiter";
+export type ProfileType = "candidate" | "recruiter";
+
+export type UserProfileType = {
+    role: ProfileType;
+    isPremiumUser: boolean;
+    userId: string | undefined;
+    email: string | undefined;
+};
 
 function Onboard() {
-    const [profileType, setProfileType] = useState<ProfileType>("canditate");
+    const [profileType, setProfileType] = useState<ProfileType>("candidate");
 
     return (
         <section>
@@ -19,13 +26,16 @@ function Onboard() {
                 >
                     Onboard - {profileType}
                 </h2>
-                <TabBtns setProfileType={setProfileType} />
+                <TabBtns
+                    profileType={profileType}
+                    setProfileType={setProfileType}
+                />
             </header>
             <article className="-center pt-[4vh] pb-[2vh] px-[4vw] ">
-                {profileType === "canditate" ? (
-                    <CanditateForm />
+                {profileType === "candidate" ? (
+                    <CanditateForm profileType={profileType} />
                 ) : (
-                    <RecruiterForm />
+                    <RecruiterForm profileType={profileType} />
                 )}
             </article>
         </section>

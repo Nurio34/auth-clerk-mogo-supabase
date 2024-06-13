@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import SubmitBtn from "./SubmitBtn";
+import { ProfileType } from "../Onboard";
 
 export type CandidateFormType = {
     name: string;
@@ -10,14 +11,13 @@ export type CandidateFormType = {
     noticePeriod: number;
     skils: string;
     previousCompanies: string;
-    totalExperience: string;
+    totalExperience: number;
     collage: string;
     collageLocation: string;
     graduatedYear: number;
     linkedinProfile: string;
     githubProfile: string;
     resume: File | null;
-    isPremiumUser: boolean;
 };
 
 export const initialCandidateFormState = {
@@ -25,23 +25,26 @@ export const initialCandidateFormState = {
     currentCompany: "",
     currentJobLocation: "",
     preferedJobLocation: "",
-    currentSalary: 0,
-    noticePeriod: 0,
+    currentSalary: NaN,
+    noticePeriod: NaN,
     skils: "",
     previousCompanies: "",
-    totalExperience: "",
+    totalExperience: NaN,
     collage: "",
     collageLocation: "",
-    graduatedYear: 0,
+    graduatedYear: NaN,
     linkedinProfile: "",
     githubProfile: "",
     resume: null,
-    isPremiumUser: false,
 };
-function CanditateForm() {
+
+function CanditateForm({ profileType }: { profileType: ProfileType }) {
     const [candidateFormData, setCandidateFormData] =
         useState<CandidateFormType>(initialCandidateFormState);
-    console.log(candidateFormData);
+
+    const isFormValid = Object.values(candidateFormData).every(
+        (input) => input !== "" && !Number.isNaN(input) && input !== null,
+    );
 
     return (
         <form
@@ -132,7 +135,7 @@ function CanditateForm() {
                     id="preferedJobLocation"
                     placeholder="Enter Prefered Job Location ..."
                     className="input input-xs input-secondary w-full"
-                    value={candidateFormData["currentJobLocation"]}
+                    value={candidateFormData["preferedJobLocation"]}
                     onChange={(e) =>
                         setCandidateFormData((pre: CandidateFormType) => ({
                             ...pre,
@@ -169,7 +172,7 @@ function CanditateForm() {
             >
                 <p>Notice Period</p>
                 <input
-                    type="text"
+                    type="number"
                     name="noticePeriod"
                     id="noticePeriod"
                     placeholder="Enter Notice Period ..."
@@ -232,7 +235,7 @@ function CanditateForm() {
             >
                 <p>Total Experience</p>
                 <input
-                    type="text"
+                    type="number"
                     name="totalExperience"
                     id="totalExperience"
                     placeholder="Enter Total Experience ..."
@@ -371,7 +374,7 @@ function CanditateForm() {
                     }
                 />
             </label>
-            <SubmitBtn />
+            <SubmitBtn isFormValid={isFormValid} />
         </form>
     );
 }

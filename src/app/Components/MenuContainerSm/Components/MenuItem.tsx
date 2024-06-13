@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { Dispatch, SetStateAction } from "react";
 
 export type MenuItemType = {
@@ -18,16 +19,20 @@ function MenuItem({
         setIsMenuOpen(false);
     };
 
+    const pathname = usePathname();
+
     return (
-        <button onClick={handleMenuItemClick}>
-            <Link
-                href={menuItem.to}
-                className=" capitalize font-semibold text-lg"
-                style={{ fontVariant: "small-caps" }}
-            >
-                {menuItem.label}
-            </Link>
-        </button>
+        <Link
+            href={menuItem.to}
+            className={`capitalize font-semibold text-lg w-full block px-[1vw]
+                    ${pathname !== menuItem.to && "hover:bg-accent"}
+                    ${pathname === menuItem.to && "bg-secondary"}
+                `}
+            style={{ fontVariant: "small-caps" }}
+            onClick={handleMenuItemClick}
+        >
+            {menuItem.label}
+        </Link>
     );
 }
 

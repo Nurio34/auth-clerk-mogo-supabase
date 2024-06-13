@@ -4,7 +4,6 @@ import "./globals.css";
 import Header from "./Components/Header";
 import { ClerkProvider } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,8 +18,6 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     const user = await currentUser();
-
-    const userProfile = null;
 
     return (
         <ClerkProvider>
