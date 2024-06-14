@@ -4,6 +4,10 @@ import "./globals.css";
 import Header from "./Components/Header";
 import { ClerkProvider } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
+import { fetchProfile } from "@/actions/onboard";
+import { UserProfileType } from "./onboard/Components/Onboard";
+import { RecruiterFormType } from "./onboard/Components/Forms/RecruiterForm";
+import { CandidateFormType } from "./onboard/Components/Forms/CanditateForm";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,13 +22,21 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     const user = await currentUser();
+    let profile;
+
+    if (user) {
+        profile = await fetchProfile(user?.id);
+    }
 
     return (
         <ClerkProvider>
             <html lang="en">
                 <body className={inter.className}>
                     <div className=" overflow-x-hidden">
-                        <Header user={JSON.parse(JSON.stringify(user))} />
+                        <Header
+                            user={JSON.parse(JSON.stringify(user))}
+                            profile={profile}
+                        />
                         {children}
                     </div>
                 </body>

@@ -5,31 +5,22 @@ import { redirect } from "next/navigation";
 import { RecruiterFormType } from "./Components/Forms/RecruiterForm";
 import { CandidateFormType } from "./Components/Forms/CanditateForm";
 
+export type RecruiterProfileType = UserProfileType & {
+    recruiterInfo: RecruiterFormType;
+};
+export type CandidateProfileType = UserProfileType & {
+    candidateInfo: CandidateFormType;
+};
+
 async function OnboardPage() {
     const user = await currentUser();
     const userId = user?.id!;
     let profile = await fetchProfile(userId);
 
-    //! --- TYPE GUARD FOR "RECRUITER" --- //
-    function isRecruiterProfile(
-        profile: UserProfileType,
-    ): profile is UserProfileType & { recruiterInfo: RecruiterFormType } {
-        return profile.role === "recruiter";
-    }
-    //! --------------------------------- //
-
-    //! --- TYPE GUARD FOR "CANDIDATE" --- //
-    function isCandidateProfile(
-        profile: UserProfileType,
-    ): profile is UserProfileType & { candidateInfo: CandidateFormType } {
-        return profile.role === "candidate";
-    }
-    //! --------------------------------- //
-
     //** --- IF USER HAVE "PROFILE", ...... */
     if (profile) {
         //** --- IF USER IS "RECRUITER", ... */
-        if (isRecruiterProfile(profile)) {
+        if (profile.role === "recruiter") {
             //** */ --- IF USER IS NOT A "PREMIUM USER" --- //
             if (!profile.isPremiumUser) {
                 redirect("/membership");
@@ -39,7 +30,8 @@ async function OnboardPage() {
         //** */ ------------------------------------ //
 
         //** --- IF USER IS "CANDIDATE" --- */
-        else if (isCandidateProfile(profile)) {
+        else if (profile.role === "candidate") {
+            redirect("/");
         }
         //** */ ------------------------------------ //
     }

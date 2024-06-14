@@ -2,8 +2,17 @@ import MenuContainerSm from "./MenuContainerSm";
 import MenuContainerLg from "./MenuContainerLg";
 import { User } from "@clerk/nextjs/server";
 import { UserButton } from "@clerk/nextjs";
+import { UserProfileType } from "../onboard/Components/Onboard";
+import { RecruiterFormType } from "../onboard/Components/Forms/RecruiterForm";
+import { CandidateFormType } from "../onboard/Components/Forms/CanditateForm";
 
-function Header({ user }: { user: User | null }) {
+function Header({
+    user,
+    profile,
+}: {
+    user: User | null;
+    profile: UserProfileType | undefined;
+}) {
     const menuItems = [
         {
             to: "/",
@@ -28,7 +37,7 @@ function Header({ user }: { user: User | null }) {
         {
             to: "/activity",
             label: "activity",
-            show: user && true,
+            show: (user && !profile) || (profile?.role === "candidate" && true),
         },
         {
             to: "/membership",

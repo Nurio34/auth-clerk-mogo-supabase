@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SubmitBtn from "./SubmitBtn";
 import { ProfileType } from "../Onboard";
+import { useUser } from "@clerk/nextjs";
+import { createProfile } from "@/actions/onboard";
+import supabaseClient from "@/supabase";
 
 export type CandidateFormType = {
     name: string;
@@ -17,25 +20,25 @@ export type CandidateFormType = {
     graduatedYear: number;
     linkedinProfile: string;
     githubProfile: string;
-    resume: File | null;
+    resume: string | undefined;
 };
 
 export const initialCandidateFormState = {
-    name: "",
-    currentCompany: "",
-    currentJobLocation: "",
-    preferedJobLocation: "",
-    currentSalary: NaN,
-    noticePeriod: NaN,
-    skils: "",
-    previousCompanies: "",
-    totalExperience: NaN,
-    collage: "",
-    collageLocation: "",
-    graduatedYear: NaN,
-    linkedinProfile: "",
-    githubProfile: "",
-    resume: null,
+    name: "Hacer Kaya",
+    currentCompany: "Pinterest",
+    currentJobLocation: "USA",
+    preferedJobLocation: "Turkey",
+    currentSalary: 10000,
+    noticePeriod: 1,
+    skils: "Web Designer",
+    previousCompanies: "Reddit",
+    totalExperience: 5,
+    collage: "MIT",
+    collageLocation: "Minesota",
+    graduatedYear: 2000,
+    linkedinProfile: "https://linkedin.com/hacerkaya",
+    githubProfile: "https://github.com/hacerkaya",
+    resume: "",
 };
 
 function CanditateForm({ profileType }: { profileType: ProfileType }) {
@@ -46,9 +49,55 @@ function CanditateForm({ profileType }: { profileType: ProfileType }) {
         (input) => input !== "" && !Number.isNaN(input) && input !== null,
     );
 
+    const [resumeFile, setResumeFile] = useState<File | null>(null);
+
+    //** --- SAVE "RESUME PDF FILE" TO "SUPABASE STORAGE"*/
+
+    const saveResumeFileToSupabaseStorage = async () => {
+        if (resumeFile) {
+            console.log(resumeFile);
+
+            const { data, error } = await supabaseClient.storage
+                .from("Candidate_Resumes")
+                .upload(`/public/${resumeFile?.name}`, resumeFile!, {
+                    cacheControl: "3600",
+                    upsert: false,
+                });
+
+            //** --- CORRECT THE "RESUME PATH" ALONG "SUPABASE PDF STORAGE" */
+            setCandidateFormData((pre) => {
+                return { ...pre, resume: data?.path };
+            });
+            //** ------------------------------------------------------- */
+        }
+    };
+
+    useEffect(() => {
+        saveResumeFileToSupabaseStorage();
+    }, [resumeFile]);
+    //** ----------------------------------------------- */
+
+    //** --- FORM ACTION --- */
+    const authedUser = useUser();
+    const { user } = authedUser;
+
+    async function createProfileAction() {
+        const data = {
+            candidateInfo: candidateFormData,
+            role: profileType,
+            isPremiumUser: false,
+            userId: user?.id,
+            email: user?.emailAddresses[0].emailAddress,
+        };
+
+        await createProfile(data);
+    }
+
+    //** -------------- */
+
     return (
         <form
-            action=""
+            action={createProfileAction}
             className=" shadow-md shadow-primary rounded-md w-full max-w-md py-[2vh] px-[4vw] mx-auto
                 grid gap-[1vh]
             "
@@ -366,12 +415,22 @@ function CanditateForm({ profileType }: { profileType: ProfileType }) {
                     id="resume"
                     placeholder="Enter Resume ..."
                     className="input input-xs  input-secondary w-full"
-                    onChange={(e) =>
-                        setCandidateFormData((pre: CandidateFormType) => ({
-                            ...pre,
-                            [e.target.name]: e.target.value,
-                        }))
-                    }
+                    // onChange={(e) =>
+                    // setCandidateFormData((pre: CandidateFormType) => ({
+                    //     ...pre,
+                    //     [e.target.name]: e.target.value,
+                    // }))
+                    // }
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        const file: File | undefined = e.target.files?.[0];
+                        // console.log(file);
+
+                        if (!file) {
+                            return;
+                        } else {
+                            setResumeFile(file);
+                        }
+                    }}
                 />
             </label>
             <SubmitBtn isFormValid={isFormValid} />
