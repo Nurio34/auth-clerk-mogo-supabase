@@ -10,11 +10,11 @@ import {
 import { SiSkillshare } from "react-icons/si";
 import { TbListDetails } from "react-icons/tb";
 import SkillImage from "./SkillImage";
-import { VscGitStashApply } from "react-icons/vsc";
 import { UserProfileType } from "@/app/onboard/Components/Onboard";
 import ApplyBtn from "./ApplyBtn";
+import ShowApplicantsBtn from "./ShowApplicantsBtn";
 
-function JobCardForRecruiter({
+function JobCard({
     job,
     profile,
 }: {
@@ -95,17 +95,12 @@ function JobCardForRecruiter({
                     })}
                 </ul>
             </p>
-            <p className=" flex items-center gap-[2vw] shadow-sm bg-orange-600 rounded-md p-[1vh]">
-                <div className="w-6">
-                    <VscGitStashApply size={24} color="white" />
-                </div>
-                <p className=" text-white">
-                    {job.applicants.length} Applicants
-                </p>
-            </p>
-            {profile.role === "candidate" && <ApplyBtn />}
+            {profile.role === "recruiter" && <ShowApplicantsBtn job={job} />}
+            {profile.role === "candidate" && (
+                <ApplyBtn job={job} profile={profile} />
+            )}
         </li>
     );
 }
 
-export default JobCardForRecruiter;
+export default JobCard;

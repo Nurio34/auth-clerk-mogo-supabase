@@ -13,7 +13,7 @@ const jobSchema = new mongoose.Schema({
         {
             name: String,
             email: String,
-            userId: String,
+            candidateId: String,
             status: String,
         },
     ],

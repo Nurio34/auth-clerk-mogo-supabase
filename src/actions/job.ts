@@ -7,8 +7,6 @@ import { revalidatePath } from "next/cache";
 export const createJob = async (
     data: JobFormType & { recruiterId: string | undefined },
 ) => {
-    console.log(data);
-
     await JobModel.create(data);
     revalidatePath("/jobs");
 };

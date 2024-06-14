@@ -55,14 +55,9 @@ function CanditateForm({ profileType }: { profileType: ProfileType }) {
 
     const saveResumeFileToSupabaseStorage = async () => {
         if (resumeFile) {
-            console.log(resumeFile);
-
             const { data, error } = await supabaseClient.storage
                 .from("Candidate_Resumes")
-                .upload(`/public/${resumeFile?.name}`, resumeFile!, {
-                    cacheControl: "3600",
-                    upsert: false,
-                });
+                .upload(`/public/${resumeFile?.name}`, resumeFile!);
 
             //** --- CORRECT THE "RESUME PATH" ALONG "SUPABASE PDF STORAGE" */
             setCandidateFormData((pre) => {
@@ -423,7 +418,6 @@ function CanditateForm({ profileType }: { profileType: ProfileType }) {
                     // }
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         const file: File | undefined = e.target.files?.[0];
-                        // console.log(file);
 
                         if (!file) {
                             return;

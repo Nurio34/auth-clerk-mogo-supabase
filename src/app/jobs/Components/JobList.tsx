@@ -6,6 +6,7 @@ import {
 import { UserProfileType } from "@/app/onboard/Components/Onboard";
 import { User } from "@clerk/nextjs/server";
 import JobCard from "./JobCards/JobCard";
+import { fetchApplicationsOfCandidate } from "@/actions/application";
 
 async function JobList({
     user,
@@ -50,6 +51,8 @@ async function JobList({
             );
         } else {
             jobList = await fetchCanidateJobs();
+            const jobApplications = await fetchApplicationsOfCandidate(user.id);
+            console.log(jobApplications);
             return (
                 <ul className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] items-start justify-start gap-[2vw] py-[2vh]">
                     {jobList.map((job) => {

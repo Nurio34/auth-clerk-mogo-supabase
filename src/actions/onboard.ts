@@ -3,13 +3,10 @@
 import connectDB from "@/db";
 import { UserProfileType } from "@/app/onboard/Components/Onboard";
 import { revalidatePath } from "next/cache";
-import { RecruiterFormType } from "@/app/onboard/Components/Forms/RecruiterForm";
-import { CandidateFormType } from "@/app/onboard/Components/Forms/CanditateForm";
 import ProfileModel from "@/models/profile";
+import { CandidateProfileType, RecruiterProfileType } from "@/app/onboard/page";
 export async function createProfile(
-    formData:
-        | (UserProfileType & { recruiterInfo: RecruiterFormType })
-        | (UserProfileType & { candidateInfo: CandidateFormType }),
+    formData: RecruiterProfileType | CandidateProfileType,
 ) {
     //** --- SAVE "FORMDATA" TO "MONGODB" */
     await connectDB();
