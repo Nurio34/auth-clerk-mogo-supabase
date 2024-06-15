@@ -70,7 +70,7 @@ function CanditateForm({ profileType }: { profileType: ProfileType }) {
 
     useEffect(() => {
         saveResumeFileToSupabaseStorage();
-    }, [resumeFile]);
+    }, [resumeFile, saveResumeFileToSupabaseStorage]);
     //** ----------------------------------------------- */
 
     //** --- FORM ACTION --- */

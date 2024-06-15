@@ -13,12 +13,12 @@ function JobsInteractionPage({
     user: User;
     profile: UserProfileType | null;
 }) {
+    const [isJobCreateModalOpen, setIsJobCreateModalOpen] =
+        useState<boolean>(false);
+
     if (profile === null) {
         return;
     } else {
-        const [isJobCreateModalOpen, setIsJobCreateModalOpen] =
-            useState<boolean>(false);
-
         return (
             <header className="flex justify-between items-center">
                 <h1
