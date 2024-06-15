@@ -65,7 +65,7 @@ function Header({
                 </div>
                 <MenuContainerLg menuItems={menuItems} />
             </div>
-            {user && <UserButton afterSignOutUrl="/" />}
+            {user && <UserButton />}
         </header>
     );
 }

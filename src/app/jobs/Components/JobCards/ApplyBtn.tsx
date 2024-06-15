@@ -1,5 +1,6 @@
 import { applyJob, fetchApplicationsOfCandidate } from "@/actions/application";
 import { FetchedRecruiterJobsType } from "@/actions/job";
+import { CandidateApplicationStatusType } from "@/app/applications/[id]/Components/CandidateProfileModal";
 import { UserProfileType } from "@/app/onboard/Components/Onboard";
 
 import { isCandidateProfile } from "@/utils/typeGuard";
@@ -10,7 +11,7 @@ export type JobApplicationType = {
     name: string;
     email: string;
     candidateId: string;
-    status: string[];
+    status: CandidateApplicationStatusType[];
     jobId: string;
     applyDate: string;
 };

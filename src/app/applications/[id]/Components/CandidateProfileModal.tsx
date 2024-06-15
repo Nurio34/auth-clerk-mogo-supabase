@@ -1,25 +1,57 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "../ContextProvider";
 import { IoMdClose } from "react-icons/io";
 import ResumeBtn from "./ActionBtns/ResumeBtn";
 import SelectBtn from "./ActionBtns/SelectBtn";
 import RejectBtn from "./ActionBtns/RejectBtn";
+import { jobApplicationOfTheCandidate } from "@/actions/application";
+import { JobApplicationType } from "@/app/jobs/Components/JobCards/ApplyBtn";
+
+export type CandidateApplicationStatusType =
+    | "Applied"
+    | "Selected"
+    | "Rejected";
 
 function CandidateProfileModal() {
     const {
         isCandidateProfileModalOpen,
         selectedCandidate,
         setIsCandidateProfileModalOpen,
+        job,
     } = useGlobalContext();
 
     const closeCandidateProfileModal = () => {
         setIsCandidateProfileModalOpen(false);
+        setIsStatusFetched(false);
     };
+
+    //** --- GET THE INFO ABOUT IF CANDITE "SELECTED", "REJECTED" OR "NO ACTION YET" --- */
+    const [status, setStatus] = useState<CandidateApplicationStatusType[]>([
+        "Applied",
+    ]);
+    const [isStatusFetched, setIsStatusFetched] = useState<boolean>(false);
+
+    useEffect(() => {
+        const jobApplicationOfTheCandidateAction = async () => {
+            try {
+                const result = await jobApplicationOfTheCandidate(
+                    job._id,
+                    selectedCandidate?.userId!,
+                );
+                setStatus(result.status);
+            } catch (error) {
+            } finally {
+                setIsStatusFetched(true);
+            }
+        };
+        jobApplicationOfTheCandidateAction();
+    }, [job, selectedCandidate]);
+    //** -------------------------------------------------------------------------------- */
 
     return (
         <AnimatePresence>
-            {isCandidateProfileModalOpen && (
+            {isCandidateProfileModalOpen && isStatusFetched && (
                 <>
                     <motion.div
                         className=" absolute top-0 left-0 w-full min-h-screen bg-primary"
@@ -108,8 +140,8 @@ function CandidateProfileModal() {
                         </p>
                         <div className="flex justify-center py-[1vh] px-[2vw] gap-[2vw]">
                             <ResumeBtn />
-                            <SelectBtn />
-                            <RejectBtn />
+                            <SelectBtn status={status} />
+                            <RejectBtn status={status} />
                         </div>
                     </motion.dialog>
                 </>

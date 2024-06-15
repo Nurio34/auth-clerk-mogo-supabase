@@ -20,10 +20,11 @@ const ApplicationsClientPage: React.FC = () => {
                 </span>
             </h2>
             <ul className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-[2vw] py-[2vh] ">
-                {candidates.map((candidate) => {
+                {candidates.map((candidate, ind) => {
                     return (
                         <CandidateCard
                             key={candidate.userId}
+                            ind={ind}
                             candidate={candidate}
                         />
                     );

@@ -32,7 +32,7 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({
     candidates,
 }) => {
     const [isCandidateProfileModalOpen, setIsCandidateProfileModalOpen] =
-        useState(false);
+        useState<boolean>(false);
     const [selectedCandidate, setSelectedCandidate] =
         useState<CandidateProfileType | null>(null);
 

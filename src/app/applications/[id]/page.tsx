@@ -7,12 +7,15 @@ import { currentUser } from "@clerk/nextjs/server";
 import React from "react";
 import ApplicationsClientPage from "./Client";
 import { GlobalProvider } from "./ContextProvider";
+import { redirect } from "next/navigation";
 
 async function ApplicationsPage({ params }: { params: { id: string } }) {
     const { id: jobId } = params;
 
     const user = await currentUser();
-    const { id: recruiterId } = user!;
+    const recruiterId = user?.id;
+
+    if (!recruiterId) redirect("/sign-in");
 
     let applications = await fetchApplicationsOfRecruiter(recruiterId);
     applications = applications.filter(

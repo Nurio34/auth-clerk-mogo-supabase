@@ -18,7 +18,6 @@ export default async function Home() {
 
     //** --- IF USER IS "NOT AUTHENTICATED" --- */
     else if (userId) {
-        await connectDB();
         const profile = await fetchProfile(userId);
 
         //** --- IF USER DOES "NOT" HAVE "PROFILE" */

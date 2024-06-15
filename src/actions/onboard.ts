@@ -19,6 +19,8 @@ export async function createProfile(
 }
 
 export async function fetchProfile(userId: string): Promise<UserProfileType> {
+    await connectDB();
+
     const userProfile = await ProfileModel.findOne({ userId });
 
     return JSON.parse(JSON.stringify(userProfile));
