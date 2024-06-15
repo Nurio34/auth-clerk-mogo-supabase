@@ -25,9 +25,11 @@ function Menu({
                     animate={{ x: 0, zIndex: 1000 }}
                     exit={{ x: "-100%" }}
                     onClick={() => setIsMenuOpen(false)}
-                    // transition={{
-                    //     duration: "1s",
-                    // }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 20,
+                    }}
                 >
                     <div
                         className=" w-96 min-h-screen shadow-sm shadow-primary bg-white py-[2vh] px-[4vw]

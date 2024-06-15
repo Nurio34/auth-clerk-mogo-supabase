@@ -15,10 +15,10 @@ export async function createProfile(
     //** -------------------------------- */
 
     revalidatePath("/onBoard");
+    revalidatePath("/jobs");
 }
 
 export async function fetchProfile(userId: string): Promise<UserProfileType> {
-    await connectDB();
     const userProfile = await ProfileModel.findOne({ userId });
 
     return JSON.parse(JSON.stringify(userProfile));

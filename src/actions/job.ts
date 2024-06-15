@@ -12,6 +12,7 @@ export const createJob = async (
 };
 
 export type FetchedRecruiterJobsType = JobFormType & {
+    _id: string;
     recruiterId: string;
     applicants: {
         name: string;

@@ -1,5 +1,7 @@
+import { applyJob, fetchApplicationsOfCandidate } from "@/actions/application";
 import { FetchedRecruiterJobsType } from "@/actions/job";
 import { UserProfileType } from "@/app/onboard/Components/Onboard";
+
 import { isCandidateProfile } from "@/utils/typeGuard";
 import React from "react";
 
@@ -16,9 +18,11 @@ export type JobApplicationType = {
 function ApplyBtn({
     job,
     profile,
+    applications,
 }: {
     job: FetchedRecruiterJobsType;
     profile: UserProfileType;
+    applications: JobApplicationType[];
 }) {
     const data: JobApplicationType = {
         recruiterId: job.recruiterId,
@@ -30,11 +34,38 @@ function ApplyBtn({
         applyDate: new Date().toLocaleDateString(),
     };
 
-    console.log(data);
-
-    async function applyJobAction() {}
-
-    return <button className="btn btn-accent btn-sm">Apply</button>;
+    return (
+        <form action={applyJob}>
+            {Object.entries(data).map(([key, value]) => {
+                return (
+                    <input
+                        key={key}
+                        type="hidden"
+                        name={key}
+                        id={key}
+                        value={value}
+                    />
+                );
+            })}
+            <button
+                type="submit"
+                className="btn btn-accent btn-sm w-full"
+                disabled={applications.some(
+                    (applications) =>
+                        applications.jobId === job._id &&
+                        applications.candidateId === profile.userId,
+                )}
+            >
+                {applications.some(
+                    (applications) =>
+                        applications.jobId === job._id &&
+                        applications.candidateId === profile.userId,
+                )
+                    ? "Applied"
+                    : "Apply"}
+            </button>
+        </form>
+    );
 }
 
 export default ApplyBtn;

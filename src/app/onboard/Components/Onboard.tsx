@@ -32,11 +32,13 @@ function Onboard() {
                 />
             </header>
             <article className="-center pt-[4vh] pb-[2vh] px-[4vw] ">
-                {profileType === "candidate" ? (
+                {/* {profileType === "candidate" ? (
                     <CanditateForm profileType={profileType} />
                 ) : (
                     <RecruiterForm profileType={profileType} />
-                )}
+                )} */}
+                <CanditateForm profileType={profileType} />
+                <RecruiterForm profileType={profileType} />
             </article>
         </section>
     );

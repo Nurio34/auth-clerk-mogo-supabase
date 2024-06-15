@@ -11,15 +11,17 @@ import { SiSkillshare } from "react-icons/si";
 import { TbListDetails } from "react-icons/tb";
 import SkillImage from "./SkillImage";
 import { UserProfileType } from "@/app/onboard/Components/Onboard";
-import ApplyBtn from "./ApplyBtn";
+import ApplyBtn, { JobApplicationType } from "./ApplyBtn";
 import ShowApplicantsBtn from "./ShowApplicantsBtn";
 
 function JobCard({
     job,
     profile,
+    applications,
 }: {
     job: FetchedRecruiterJobsType;
     profile: UserProfileType;
+    applications: JobApplicationType[];
 }) {
     const { skills } = job; // [html,css,javascript,tailwind,react,next,clerk,mongo]
 
@@ -50,54 +52,60 @@ function JobCard({
         "
         >
             <h3 className="flex items-center gap-[2vw] shadow-sm">
-                <div className="w-6 bg-green-500 rounded-full">
+                <span className="w-6 bg-green-500 rounded-full">
                     <MdMyLocation size={24} color="white" />
-                </div>
-                <p className=" font-semibold">{job.title}</p>
+                </span>
+                <span className=" font-semibold">{job.title}</span>
             </h3>
             <p className=" flex items-center gap-[2vw] shadow-sm">
-                <div className="w-6 bg-blue-300">
+                <span className="w-6 bg-blue-300">
                     <MdOutlineLocationCity size={24} />
-                </div>
-                <p>{job.companyName}</p>
+                </span>
+                <span>{job.companyName}</span>
             </p>
             <p className=" flex items-center gap-[2vw] shadow-sm">
-                <div className="w-6">
+                <span className="w-6">
                     <FaLocationDot size={24} color="blue" />
-                </div>
-                <p>{job.location}</p>
+                </span>
+                <span>{job.location}</span>
             </p>
             <p className=" flex items-center gap-[2vw] shadow-sm">
-                <div className="w-6 bg-black">
+                <span className="w-6 bg-black">
                     <TbListDetails size={24} color="yellow" />
-                </div>
-                <p>{job.description}</p>
+                </span>
+                <span>{job.description}</span>
             </p>
             <p className=" flex items-center gap-[2vw] shadow-sm">
-                <div className="w-6 ">
+                <span className="w-6 ">
                     <MdBloodtype size={24} color="red" />
-                </div>
-                <p>{job.type}</p>
+                </span>
+                <span>{job.type}</span>
             </p>
             <p className=" flex items-center gap-[2vw] shadow-sm">
-                <div className="w-6 bg-blue-700 rounded-full">
+                <span className="w-6 bg-blue-700 rounded-full">
                     <AiOutlineDocker size={24} color="white" />
-                </div>
-                <p>{job.experience}</p>
+                </span>
+                <span>{job.experience}</span>
             </p>
-            <p className=" flex items-center gap-[2vw] shadow-sm">
-                <div className="w-6 flex ">
+            <div className=" flex items-center gap-[2vw] shadow-sm">
+                <span className="w-6 flex ">
                     <SiSkillshare size={24} />
-                </div>
+                </span>
                 <ul className="flex flex-wrap justify-start items-center gap-[1vw]">
                     {regulatedSkills.map((skill) => {
                         return <SkillImage key={skill} skill={skill!} />;
                     })}
                 </ul>
-            </p>
-            {profile.role === "recruiter" && <ShowApplicantsBtn job={job} />}
+            </div>
+            {profile.role === "recruiter" && (
+                <ShowApplicantsBtn job={job} applications={applications} />
+            )}
             {profile.role === "candidate" && (
-                <ApplyBtn job={job} profile={profile} />
+                <ApplyBtn
+                    job={job}
+                    profile={profile}
+                    applications={applications}
+                />
             )}
         </li>
     );

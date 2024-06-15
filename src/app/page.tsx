@@ -39,7 +39,7 @@ export default async function Home() {
             else if (isCandidateProfile(profile)) {
                 return (
                     <>
-                        <div> Hello {profile.candidateInfo.name}</div>;
+                        <div> Hello {profile.candidateInfo.name}</div>
                     </>
                 );
             }

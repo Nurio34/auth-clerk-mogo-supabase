@@ -10,8 +10,8 @@ const ApplicationSchema = new mongoose.Schema({
     applyDate: String,
 });
 
-const Application =
-    mongoose.models.Application ||
-    mongoose.model("Application", ApplicationSchema);
+const ApplicationModel =
+    mongoose.models.ApplicationModel ||
+    mongoose.model("ApplicationModel", ApplicationSchema);
 
-export default Application;
+export default ApplicationModel;
