@@ -58,7 +58,7 @@ function FilterBtns() {
     return (
         <ul className="flex gap-[2vw]">
             {Object.entries(categories).map((category) => {
-                return <FilterBtn category={category} />;
+                return <FilterBtn key={category[0]} category={category} />;
             })}
         </ul>
     );

@@ -13,7 +13,7 @@ function FilterBtn({ category }: { category: [string, string[]] }) {
             <ul className="absolute bg-primary text-primary-content">
                 {categoryTitles.map((title: string) => {
                     return (
-                        <li>
+                        <li key={title}>
                             <label htmlFor={title}>
                                 <input
                                     type="checkbox"
