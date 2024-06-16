@@ -13,6 +13,7 @@ import SkillImage from "./SkillImage";
 import { UserProfileType } from "@/app/onboard/Components/Onboard";
 import ApplyBtn, { JobApplicationType } from "./ApplyBtn";
 import ShowApplicantsBtn from "./ShowApplicantsBtn";
+import { regulatedSkills } from "@/utils/regulatedSkills";
 
 function JobCard({
     job,
@@ -23,27 +24,7 @@ function JobCard({
     profile: UserProfileType;
     applications: JobApplicationType[];
 }) {
-    const { skills } = job; // [html,css,javascript,tailwind,react,next,clerk,mongo]
-
-    const regulatedSkills = skills.split(",").map((skill: string) => {
-        if (skill.toLocaleLowerCase().includes("html")) {
-            return "html";
-        } else if (skill.toLocaleLowerCase().includes("css")) {
-            return "css";
-        } else if (skill.toLocaleLowerCase().includes("javascript")) {
-            return "javascript";
-        } else if (skill.toLocaleLowerCase().includes("tailwind")) {
-            return "tailwind";
-        } else if (skill.toLocaleLowerCase().includes("react")) {
-            return "react";
-        } else if (skill.toLocaleLowerCase().includes("next")) {
-            return "next";
-        } else if (skill.toLocaleLowerCase().includes("clerk")) {
-            return "clerk";
-        } else if (skill.toLocaleLowerCase().includes("mongo")) {
-            return "mongo";
-        }
-    });
+    const skills = job.skills; // [html,css,javascript,tailwind,react,next,clerk,mongo]
 
     return (
         <li
@@ -92,7 +73,7 @@ function JobCard({
                     <SiSkillshare size={24} />
                 </span>
                 <ul className="flex flex-wrap justify-start items-center gap-[1vw]">
-                    {regulatedSkills.map((skill) => {
+                    {regulatedSkills(skills).map((skill) => {
                         return <SkillImage key={skill} skill={skill!} />;
                     })}
                 </ul>

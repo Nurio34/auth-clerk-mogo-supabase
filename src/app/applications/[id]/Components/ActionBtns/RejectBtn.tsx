@@ -6,8 +6,6 @@ function RejectBtn({ status }: { status: CandidateApplicationStatusType[] }) {
     const { job, selectedCandidate } = useGlobalContext();
 
     const updateSelectedApplicationAction = async () => {
-        console.log({ job, selectedCandidate });
-
         await updateSelectedApplication(
             job._id,
             selectedCandidate?.userId!,

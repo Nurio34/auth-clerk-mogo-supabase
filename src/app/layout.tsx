@@ -30,7 +30,7 @@ export default async function RootLayout({
 
     return (
         <ClerkProvider>
-            <html lang="en">
+            <html lang="en" data-theme="light">
                 <body className={inter.className}>
                     <div className=" overflow-x-hidden">
                         <Header

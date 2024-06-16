@@ -3,8 +3,7 @@ import MenuContainerLg from "./MenuContainerLg";
 import { User } from "@clerk/nextjs/server";
 import { UserButton } from "@clerk/nextjs";
 import { UserProfileType } from "../onboard/Components/Onboard";
-import { RecruiterFormType } from "../onboard/Components/Forms/RecruiterForm";
-import { CandidateFormType } from "../onboard/Components/Forms/CanditateForm";
+import ToogleThemeBtn from "./ToogleThemeBtn";
 
 function Header({
     user,
@@ -65,7 +64,10 @@ function Header({
                 </div>
                 <MenuContainerLg menuItems={menuItems} />
             </div>
-            {user && <UserButton />}
+            <div className="flex gap-[2vw] items-center">
+                <ToogleThemeBtn />
+                {user && <UserButton />}
+            </div>
         </header>
     );
 }

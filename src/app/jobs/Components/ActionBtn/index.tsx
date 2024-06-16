@@ -1,7 +1,7 @@
 import { UserProfileType } from "@/app/onboard/Components/Onboard";
 import React, { Dispatch, SetStateAction } from "react";
 import CreateJobBtn from "./CreateJobBtn";
-import FilterBtn from "./FilterBtn";
+import FilterBtns from "./FilterBtns";
 
 function ActionBtn({
     profile,
@@ -17,7 +17,7 @@ function ActionBtn({
                     setIsJobCreateModalOpen={setIsJobCreateModalOpen}
                 />
             ) : (
-                <FilterBtn />
+                <FilterBtns />
             )}
         </>
     );
