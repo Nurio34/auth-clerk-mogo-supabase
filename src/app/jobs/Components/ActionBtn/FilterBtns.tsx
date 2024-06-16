@@ -1,5 +1,6 @@
 import { FetchedRecruiterJobsType, fetchCanidateJobs } from "@/actions/job";
 import { useEffect, useRef, useState } from "react";
+import FilterBtn from "./FilterBtn";
 
 export type CategoriesType = {
     title: string[];
@@ -40,10 +41,13 @@ function FilterBtns() {
     useEffect(() => {
         if (jobs) {
             const newCategories = jobs.reduce((acc, job) => {
-                acc.title.push(job.title);
-                acc.companyName.push(job.companyName);
-                acc.location.push(job.location);
-                acc.type.push(job.type);
+                if (!acc.title.includes(job.title)) acc.title.push(job.title);
+                if (!acc.companyName.includes(job.companyName))
+                    acc.companyName.push(job.companyName);
+                if (!acc.location.includes(job.location))
+                    acc.location.push(job.location);
+                if (!acc.type.includes(job.type)) acc.type.push(job.type);
+
                 return acc;
             }, initialCategoriesState);
 
@@ -51,12 +55,13 @@ function FilterBtns() {
         }
     }, [jobs]);
 
-    console.log(categories);
-
-    // Render logic here...
-    // Add appropriate JSX or return logic
-
-    return <div>{/* Your JSX here */}</div>;
+    return (
+        <ul className="flex gap-[2vw]">
+            {Object.entries(categories).map((category) => {
+                return <FilterBtn category={category} />;
+            })}
+        </ul>
+    );
 }
 
 export default FilterBtns;

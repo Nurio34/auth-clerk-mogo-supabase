@@ -37,7 +37,6 @@ export const ContextProvider: React.FC<ContextProviderType> = ({
     applications,
 }) => {
     const [filterBy, setFilterBy] = useState<FilterByType>("Applied");
-    console.log(filterBy);
 
     return (
         <GlobalContext.Provider
