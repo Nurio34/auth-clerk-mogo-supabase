@@ -1,10 +1,8 @@
-import { Dispatch, SetStateAction } from "react";
+import { useGlobalContext } from "../../Context";
 
-function CreateJobBtn({
-    setIsJobCreateModalOpen,
-}: {
-    setIsJobCreateModalOpen: Dispatch<SetStateAction<boolean>>;
-}) {
+function CreateJobBtn() {
+    const { setIsJobCreateModalOpen } = useGlobalContext();
+
     const onClick = () => setIsJobCreateModalOpen(true);
 
     return (

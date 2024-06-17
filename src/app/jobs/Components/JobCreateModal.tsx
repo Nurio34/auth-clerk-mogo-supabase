@@ -1,12 +1,10 @@
 import { createJob } from "@/actions/job";
 import SubmitBtn from "@/app/onboard/Components/Forms/SubmitBtn";
-import { UserProfileType } from "@/app/onboard/Components/Onboard";
 import { isRecruiterProfile } from "@/utils/typeGuard";
-import { useUser } from "@clerk/nextjs";
-import { User, currentUser } from "@clerk/nextjs/server";
 import { AnimatePresence, motion } from "framer-motion";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
+import { useGlobalContext } from "../Context";
 
 export type JobFormType = {
     companyName: string;
@@ -18,17 +16,10 @@ export type JobFormType = {
     skills: string;
 };
 
-function JobCreateModal({
-    isJobCreateModalOpen,
-    setIsJobCreateModalOpen,
-    user,
-    profile,
-}: {
-    isJobCreateModalOpen: boolean;
-    setIsJobCreateModalOpen: Dispatch<SetStateAction<boolean>>;
-    user: User;
-    profile: UserProfileType;
-}) {
+function JobCreateModal() {
+    const { profile, setIsJobCreateModalOpen, user, isJobCreateModalOpen } =
+        useGlobalContext();
+
     const companyName = isRecruiterProfile(profile)
         ? profile.recruiterInfo.currentCompany
         : "";

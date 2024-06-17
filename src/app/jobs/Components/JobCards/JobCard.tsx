@@ -14,6 +14,7 @@ import { UserProfileType } from "@/app/onboard/Components/Onboard";
 import ApplyBtn, { JobApplicationType } from "./ApplyBtn";
 import ShowApplicantsBtn from "./ShowApplicantsBtn";
 import { regulatedSkills } from "@/utils/regulatedSkills";
+import { motion } from "framer-motion";
 
 function JobCard({
     job,
@@ -27,10 +28,12 @@ function JobCard({
     const skills = job.skills; // [html,css,javascript,tailwind,react,next,clerk,mongo]
 
     return (
-        <li
-            className=" shadow-md shadow-secondary rounded-md py-[1vh] px-[2vw] bg-[rgba(255,255,255,0.9)]
+        <motion.li
+            className=" shadow-md shadow-secondary rounded-md py-[1vh] px-[2vw] bg-base-300
             grid gap-y-[1vh]
         "
+            key={job._id}
+            layout
         >
             <h3 className="flex items-center gap-[2vw] shadow-sm">
                 <span className="w-6 bg-green-500 rounded-full">
@@ -88,7 +91,7 @@ function JobCard({
                     applications={applications}
                 />
             )}
-        </li>
+        </motion.li>
     );
 }
 

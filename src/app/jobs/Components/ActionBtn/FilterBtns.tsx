@@ -9,6 +9,10 @@ export type CategoriesType = {
     type: string[];
 };
 
+export type FilterBtnsStateType = {
+    [key: string]: boolean;
+};
+
 function FilterBtns() {
     const [jobs, setJobs] = useState<FetchedRecruiterJobsType[] | null>(null);
 
@@ -55,10 +59,28 @@ function FilterBtns() {
         }
     }, [jobs]);
 
+    //** --- FILTER BUTTONS STATES --- */
+
+    const initialfilterBtnsStates = filterBtns.reduce((obj, filterBtn) => {
+        obj[filterBtn] = false;
+        return obj;
+    }, {} as FilterBtnsStateType);
+
+    const [filterBtnsStates, setFfilterBtnsStates] =
+        useState<FilterBtnsStateType>(initialfilterBtnsStates);
+
     return (
-        <ul className="flex gap-[2vw]">
+        <ul className="flex flex-wrap justify-center gap-x-[1vw] md:gap-x-[2vw] gap-y-[1vh] grow md:grow-0 ">
             {Object.entries(categories).map((category) => {
-                return <FilterBtn key={category[0]} category={category} />;
+                return (
+                    <FilterBtn
+                        key={category[0]}
+                        category={category}
+                        filterBtnsStates={filterBtnsStates}
+                        setFfilterBtnsStates={setFfilterBtnsStates}
+                        initialfilterBtnsStates={initialfilterBtnsStates}
+                    />
+                );
             })}
         </ul>
     );

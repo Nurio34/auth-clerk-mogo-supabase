@@ -1,25 +1,12 @@
-import { UserProfileType } from "@/app/onboard/Components/Onboard";
-import React, { Dispatch, SetStateAction } from "react";
 import CreateJobBtn from "./CreateJobBtn";
 import FilterBtns from "./FilterBtns";
+import { useGlobalContext } from "../../Context";
 
-function ActionBtn({
-    profile,
-    setIsJobCreateModalOpen,
-}: {
-    profile: UserProfileType;
-    setIsJobCreateModalOpen: Dispatch<SetStateAction<boolean>>;
-}) {
+function ActionBtn() {
+    const { profile } = useGlobalContext();
+
     return (
-        <>
-            {profile.role === "recruiter" ? (
-                <CreateJobBtn
-                    setIsJobCreateModalOpen={setIsJobCreateModalOpen}
-                />
-            ) : (
-                <FilterBtns />
-            )}
-        </>
+        <>{profile.role === "recruiter" ? <CreateJobBtn /> : <FilterBtns />}</>
     );
 }
 

@@ -1,44 +1,25 @@
-"use client";
-
-import { UserProfileType } from "@/app/onboard/Components/Onboard";
 import ActionBtn from "./ActionBtn";
 import JobCreateModal from "./JobCreateModal";
-import { useState } from "react";
-import { User } from "@clerk/nextjs/server";
+import { useGlobalContext } from "../Context";
 
-function JobsInteractionPage({
-    user,
-    profile,
-}: {
-    user: User;
-    profile: UserProfileType | null;
-}) {
-    const [isJobCreateModalOpen, setIsJobCreateModalOpen] =
-        useState<boolean>(false);
+function JobsInteractionPage() {
+    const { profile } = useGlobalContext();
 
     if (profile === null) {
         return;
     } else {
         return (
-            <header className="flex justify-between items-center">
+            <header className="flex justify-between items-center flex-wrap md:flex-nowrap gap-y-[1vh]">
                 <h1
-                    className=" font-semibold text-xl"
+                    className=" font-semibold text-xl grow md:grow-0 text-center"
                     style={{ fontVariant: "small-caps" }}
                 >
                     {profile.role === "recruiter"
                         ? "Your Job List"
                         : "Explore All Jobs"}
                 </h1>
-                <ActionBtn
-                    profile={profile}
-                    setIsJobCreateModalOpen={setIsJobCreateModalOpen}
-                />
-                <JobCreateModal
-                    isJobCreateModalOpen={isJobCreateModalOpen}
-                    setIsJobCreateModalOpen={setIsJobCreateModalOpen}
-                    user={user}
-                    profile={profile}
-                />
+                <ActionBtn />
+                <JobCreateModal />
             </header>
         );
     }
