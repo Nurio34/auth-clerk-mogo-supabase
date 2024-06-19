@@ -1,50 +1,30 @@
-import { fetchProfile } from "@/actions/onboard";
-import connectDB from "@/db";
-import { isCandidateProfile, isRecruiterProfile } from "@/utils/typeGuard";
 import { currentUser } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import Image from "next/image";
+import hero from "../../public/hero.webp";
+import Buttons from "./Components/Buttons";
 
 export default async function Home() {
     const user = await currentUser();
     const userId = user?.id;
 
-    //** --- IF USER IS "NOT AUTHENTICATED" --- */
-    if (!userId) {
-        return <h1>Welcome Job Portal</h1>;
-    }
-    //** -------------------------------------- */
-
-    //** --- IF USER IS "NOT AUTHENTICATED" --- */
-    else if (userId) {
-        const profile = await fetchProfile(userId);
-
-        //** --- IF USER DOES "NOT" HAVE "PROFILE" */
-        if (!profile) {
-            redirect("/onboard");
-        }
-        //** -------------------------------------- */
-
-        //** --- IF USER DOES  HAVE "PROFILE" */
-        else {
-            //** --- IF USER IS "RECRUITER" */
-            if (isRecruiterProfile(profile)) {
-                return <div>Hello {profile.recruiterInfo.name}</div>;
-            }
-            //** --------------------------- */
-
-            //** --- IF USER IS "RECRUITER" */
-            else if (isCandidateProfile(profile)) {
-                return (
-                    <>
-                        <div> Hello {profile.candidateInfo.name}</div>
-                    </>
-                );
-            }
-            //** --------------------------- */
-        }
-        //** -------------------------------------- */
-    }
-    //** -------------------------------------- */
+    return (
+        <main>
+            <section className="grid grid-cols-2 max-w-[1024px] mx-auto py-[4vh] px-[4vw]">
+                <article className="grid  place-content-center gap-y-[2vh] pr-[6vw] ">
+                    <p>___ One Stop Solution to Find Jobs and Employes</p>
+                    <h1 className=" font-bold text-5xl ">
+                        The Best Job Portal App
+                    </h1>
+                    <p>
+                        Find Best Jobs From Top Product Based Companies and
+                        Build Your Career
+                    </p>
+                    <Buttons userId={userId} />
+                </article>
+                <figure className=" aspect-square relative">
+                    <Image src={hero} alt="hero" fill />
+                </figure>
+            </section>
+        </main>
+    );
 }

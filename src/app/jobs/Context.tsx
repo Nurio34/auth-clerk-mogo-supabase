@@ -11,6 +11,7 @@ import { FetchedRecruiterJobsType } from "@/actions/job";
 import { User } from "@clerk/nextjs/server";
 import { UserProfileType } from "../onboard/Components/Onboard";
 import { JobApplicationType } from "./Components/JobCards/ApplyBtn";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 
 type GlobalContextType = {
     user: User;
@@ -45,6 +46,8 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({
     applications,
     jobList,
 }) => {
+    const searchParams = useSearchParams();
+
     //** --- SESSION STORAGE OF "filteredKeyValue" ---  */
     const storageFilteredKeyValue =
         typeof window !== "undefined"
@@ -68,9 +71,10 @@ export const GlobalProvider: React.FC<GlobalProviderProps> = ({
         );
     }, [filteredKeyValue]);
     //** ------------------------------------------- */
+    const isOpen = searchParams.get("isOpen") === null ? false : true;
 
     const [isJobCreateModalOpen, setIsJobCreateModalOpen] =
-        useState<boolean>(false);
+        useState<boolean>(isOpen);
 
     return (
         <GlobalContext.Provider

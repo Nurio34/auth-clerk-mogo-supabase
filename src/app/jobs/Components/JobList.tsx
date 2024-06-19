@@ -21,7 +21,7 @@ function JobList() {
                         profile.role === "candidate" && "url('/wallpaper.webp')"
                     }`,
                     backgroundRepeat: "no-repeat",
-                    backgroundSize: "contain",
+                    backgroundSize: "cover",
                     borderImageSource:
                         "linear-gradient(45deg,rgba(255,255,255,0.5),rgba(0,0,0,0.5))",
                     borderStyle: "solid",
